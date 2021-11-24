@@ -31,9 +31,6 @@ Backend
 
 Please follow all the steps to get started
 
-### Prerequisites
-
-Install the model.h5 weight from this [google shared link](https://drive.google.com/file/d/1TrvbBRyA6FCcVmuqa70kxyFedGwdqe20/view?usp=sharing) and placed it into directory folder
 
 ### Steps
 
@@ -42,20 +39,22 @@ Install the model.h5 weight from this [google shared link](https://drive.google.
    ```sh
    git clone https://github.com/victorlee071200/Face_Recognition-Attedance-Projects.git
    ```
-   
-2. cd to the application directory
+ 
+2. Download the model.h5 weight from this [google shared link](https://drive.google.com/file/d/1TrvbBRyA6FCcVmuqa70kxyFedGwdqe20/view?usp=sharing) and placed it into directory folder
+
+3. cd to the application directory
 
    ```sh
    cd app
    ```
 
-3. Install all the required module with pip
+4. Install all the required module with pip
 
    ```sh
    pip install -r requirements.txt
    ```
 
-4. Run the program with streamlit
+5. Run the program with command line:
 
    ```sh
    streamlit run app.py
