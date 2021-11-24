@@ -1,3 +1,6 @@
+#This python file is used to train model 4 of the metric learning approach given in the report
+
+
 # Import standard dependencies
 import cv2
 import os
