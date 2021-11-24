@@ -44,8 +44,9 @@ Install the model.h5 weight from this [google shared link](https://drive.google.
    ```
    
 2. cd to the application directory
-  ```sh
-   cd app
+
+   ```sh
+      cd app
    ```
 
 3. Install all the required module with pip
