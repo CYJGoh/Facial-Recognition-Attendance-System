@@ -40,7 +40,12 @@ Please follow all the steps to get started
    git clone https://github.com/victorlee071200/Face_Recognition-Attedance-Projects.git
    ```
  
-2. Download the model.h5 weight from this [google shared link](https://drive.google.com/file/d/1TrvbBRyA6FCcVmuqa70kxyFedGwdqe20/view?usp=sharing) and placed it into directory folder
+2. Download the model.h5 weight from this [google shared link](https://drive.google.com/file/d/1TrvbBRyA6FCcVmuqa70kxyFedGwdqe20/view?usp=sharing) and placed it into directory folder as shown below:
+
+<a href="#">
+  <img src="github_images/directory.png" alt="Logo" width="200" height="200">
+</a>
+ 
 
 3. cd to the application directory
 
