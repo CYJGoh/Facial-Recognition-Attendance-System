@@ -70,8 +70,9 @@ Great Job, you're all set!
 
 For classification model can be accessed through this [google shared link](https://drive.google.com/drive/folders/14_1TfqUwOV_AExBmY2BkUlmgF7pieQtu?usp=sharing)
 
-model1 and model2 folders contain weights of the two classification models discussed in the report
-The "siamesemodel_classification_embedding_10eps_50%_L1.h5" file is Model 4 of the metric learning approach in the report
+![image](https://user-images.githubusercontent.com/36982416/143263497-6fd7efe2-1e2d-4a1c-9e3b-2449f5d272fc.png)
+1. "model1" and "model2" folders contain weights of the two classification models discussed in the report.
+2. The "siamesemodel_classification_embedding_10eps_50%_L1.h5" file is Model 4 of the metric learning approach in the report.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
