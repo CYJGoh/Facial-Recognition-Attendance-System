@@ -46,7 +46,7 @@ Install the model.h5 weight from this [google shared link](https://drive.google.
 2. cd to the application directory
 
    ```sh
-      cd app
+   cd app
    ```
 
 3. Install all the required module with pip
@@ -58,7 +58,7 @@ Install the model.h5 weight from this [google shared link](https://drive.google.
 4. Run the program with streamlit
 
    ```sh
-      streamlit run app.py
+   streamlit run app.py
    ```
 
 Great Job, you're all set!
