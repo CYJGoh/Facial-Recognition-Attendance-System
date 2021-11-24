@@ -66,6 +66,13 @@ Please follow all the steps to get started
 
 Great Job, you're all set!
 
+## Weights of trained models
+
+For classification model can be accessed through this [google shared link](https://drive.google.com/drive/folders/14_1TfqUwOV_AExBmY2BkUlmgF7pieQtu?usp=sharing)
+
+model1 and model2 folders contain weights of the two classification models discussed in the report
+The "siamesemodel_classification_embedding_10eps_50%_L1.h5" file is Model 4 of the metric learning approach in the report
+
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
