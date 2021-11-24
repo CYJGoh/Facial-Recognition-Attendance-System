@@ -1,3 +1,4 @@
+#This .py file is used to train model 1 of classification approach in report
 
 import matplotlib.pyplot as plt
 import numpy as np
