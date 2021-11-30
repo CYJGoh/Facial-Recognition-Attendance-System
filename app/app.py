@@ -92,17 +92,12 @@ def main():
 
         st.title("Step 3: Face Recognition (Web Cam)")
 
-        # Slider for threshold
-        # Detection Threshold
-
         detection_threshold = 0.53
-
-        # Verification Threshold
 
         verification_threshold = 0.99
 
         st.caption(
-            'Please choose your action by selecting the action button below ')
+            'Please choose your action by selecting the action button below: ')
         step_3(model, detection_threshold, verification_threshold)
 
 
