@@ -10,14 +10,17 @@ import datetime
 import time
 # Import uuid library to generate unique image names
 import uuid
-from csv import DictWriter
 import csv
+from csv import DictWriter
 
 
 @st.cache
 def load_image(image_file):
     img = Image.open(image_file)
     return img
+
+
+path = 'application_data/verification_images'
 
 
 def main():
@@ -27,7 +30,7 @@ def main():
 
     # load the model
     model = tf.keras.models.load_model(
-        'model.h5', custom_objects={'L1Dist': L1Dist})
+        'model.h5', custom_objects={'L1Dist': L1Dist}, compile=False)
 
     if sidebar == 'Welcome':
         st.title('COS30082 Applied Machine Learning')
@@ -40,29 +43,41 @@ def main():
 
         st.title('Register as new user')
 
-        st.text(
-            'Its good to have at least 5 images for initialising your identity.')
-        register_btn = st.button('Register as new user')
-
-        st.caption('Please check the checkbox below for web cam previewing')
-
         run = st.checkbox('Webcam Preview')
 
         webcam_preview(run)
 
+        director_name = st.text_input("Please Enter you name")
+
+        register_btn = st.button('Register as new user')
+
+        st.caption('Please check the checkbox below for web cam previewing')
+
+        if director_name == '':
+            st.error('Do not empty the input field...')
+
         if register_btn:
             with st.spinner('Registering...'):
-                REGISTER_PATH = os.path.join(
-                    'application_data', 'verification_images')
+
                 camera = cv2.VideoCapture(0)
-                REGISTER_PATH2 = os.path.join(
-                    REGISTER_PATH, '{}.jpg'.format(uuid.uuid1()))
-                ret, frame = camera.read()
-                cv2.imwrite(REGISTER_PATH2, frame)
 
-                st.image(REGISTER_PATH2)
+                REGISTER_PATH = os.path.join(
+                    'application_data', 'verification_images', director_name)
 
-            st.success('Register Successfully!')
+                try:
+                    os.makedirs(REGISTER_PATH, exist_ok=True)
+
+                    REGISTER_PATH2 = os.path.join(
+                        REGISTER_PATH, '{}.jpg'.format(uuid.uuid1()))
+                    ret, frame = camera.read()
+                    cv2.imwrite(REGISTER_PATH2, frame)
+
+                    st.image(REGISTER_PATH2)
+
+                    st.success("User Image Registered Successfully !")
+
+                except OSError as error:
+                    st.error("User Register Unsuccessfully! Please try it again")
 
     if sidebar == 'Step 2: Capture Input Images':
         st.title('Capture Input Image')
@@ -107,68 +122,70 @@ def capture_input():
 
 
 def verification(model, detection_threshold, verification_threshold):
-    results = []
-    for image in os.listdir(os.path.join('application_data', 'verification_images')):
-        input_img = preprocess(os.path.join(
-            'application_data', 'input_image', 'input_image.jpg'))
-        validation_img = preprocess(os.path.join(
-            'application_data', 'verification_images', image))
 
-        # Make Predictions
-        result = model.predict(
-            list(np.expand_dims([input_img, validation_img], axis=1)))
-        results.append(result)
+    for root, directories, files in os.walk(path, topdown=False, followlinks=True):
 
-    # Detection Threshold: Metric above which a prediciton is considered positive
-    detection = np.sum(np.array(results) > detection_threshold)
+        for directory in directories:
 
-    # Verification Threshold: Proportion of positive predictions / total positive samples
-    verification = detection / \
-        len(os.listdir(os.path.join(
-            'application_data', 'verification_images')))
-    verified = verification > verification_threshold
+            results = []
 
-    st.text(
-        f"Result of comparison with \nfaces registered in database: {results}")
-    st.text(f"Number of predictions: {detection}")
-    st.text(f"Verification score: {verification}")
-    st.text(f"Verification result: {verified}")
-    st.text('Verified' if verified == True else 'Unverified')
+            for file in os.listdir(os.path.join(root, directory)):
+                if os.path.isfile(os.path.join(root, directory, file)):
+                    input_img = preprocess(os.path.join(
+                        'application_data', 'input_image', 'input_image.jpg'))
+                    validation_img = preprocess(
+                        os.path.join(root, directory, file))
 
-    return verified
+                # # Time tracking for image prediction
+                # prediction_time = time.process_time()
+
+                # Make Predictions
+                result = model.predict(
+                    list(np.expand_dims([input_img, validation_img], axis=1)))
+                results.append(result)
+
+                # st.text(
+                #     f"Prediction Time: {time.process_time() - prediction_time}")
+
+                # Detection Threshold: Metric above which a prediciton is considered positive
+                detection = np.sum(np.array(results) > detection_threshold)
+
+                # Verification Threshold: Proportion of positive predictions / total positive samples
+                verification = detection / \
+                    len(os.listdir(os.path.join(
+                        path, directory)))
+                verified = verification > verification_threshold
+
+    return verified, directory
 
 
 def step_3(model, detection_threshold, verification_threshold):
 
-    username = st.text_input("Enter you name")
     col1, col2 = st.columns(2)
 
     with col1:
         clockIn_btn = st.button("Clock In")
         if clockIn_btn:
             with st.spinner('Verifying...'):
-                verified = verification(
+                verified, directory = verification(
                     model, detection_threshold, verification_threshold)
                 if verified == True:
-                    clocking(username, "Clocked In")
-                    st.success(f"{username} Clocked In")
+                    clocking(directory, "Clocked In")
+                    st.success(f"{directory} Clocked In")
                 else:
                     st.warning('User is not verified')
-
-            st.success(f"Done!")
 
     with col2:
         clockOut_btn = st.button("Clock Out")
         if clockOut_btn:
             with st.spinner('Verifying...'):
-                verified = verification(
+                verified, directory = verification(
                     model, detection_threshold, verification_threshold)
                 if verified == True:
-                    clocking(username, "Clocked Out")
-                    st.success(f"{username} Clocked Out")
+                    clocking(directory, "Clocked Out")
+                    st.success(f"{directory} Clocked Out")
                 else:
                     st.warning('User is not verified')
-            st.success(f"Done!")
 
 
 def clocking(username, mode):
@@ -188,11 +205,13 @@ def clocking(username, mode):
 def preprocess(file_path):
 
     # Read in image from file path
+
     byte_img = tf.io.read_file(file_path)
+
     # Load in the image
     img = tf.io.decode_jpeg(byte_img)
 
-    # Preprocessing steps - resizing the image to be 100x100x3
+    # Preprocessing steps - resizing the image to be 105x105x3
     img = tf.image.resize(img, (105, 105))
     # Scale image to be between 0 and 1
     img = img / 255.0
