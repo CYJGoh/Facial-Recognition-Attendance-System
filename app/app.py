@@ -41,7 +41,9 @@ def main():
 
     if sidebar == 'Step 1: Register as new user':
 
-        st.title('Register as new user')
+        st.title('Step 1: Register as new user')
+
+        st.caption('Please check the checkbox below for web cam previewing')
 
         run = st.checkbox('Webcam Preview')
 
@@ -51,10 +53,8 @@ def main():
 
         register_btn = st.button('Register as new user')
 
-        st.caption('Please check the checkbox below for web cam previewing')
-
         if director_name == '':
-            st.error('Do not empty the input field...')
+            st.warning('Do not empty the input field...')
 
         if register_btn:
             with st.spinner('Registering...'):
@@ -80,7 +80,7 @@ def main():
                     st.error("User Register Unsuccessfully! Please try it again")
 
     if sidebar == 'Step 2: Capture Input Images':
-        st.title('Capture Input Image')
+        st.title('Step 2: Capture Input Image')
 
         st.caption('Press the button again to capture again')
         capture_btn = st.button('Capture Input Image')
@@ -90,22 +90,19 @@ def main():
 
     if sidebar == 'Step 3: Face Recognition':
 
-        st.title("Face Recognition (Web Cam)")
+        st.title("Step 3: Face Recognition (Web Cam)")
 
         # Slider for threshold
         # Detection Threshold
-        st.subheader('Detection Threshold')
-        detection_threshold = st.slider(
-            'Try out threshold between 0-1', value=0.53)
-        st.write("Detection Threshold:", detection_threshold)
+
+        detection_threshold = 0.53
 
         # Verification Threshold
-        st.subheader('Verification Threshold')
-        verification_threshold = st.slider(
-            'Try out threshold between 0-1', value=0.59)
-        st.write("Verification Threshold:", verification_threshold)
 
-        st.subheader('Step 3')
+        verification_threshold = 0.99
+
+        st.caption(
+            'Please choose your action by selecting the action button below ')
         step_3(model, detection_threshold, verification_threshold)
 
 
@@ -196,7 +193,7 @@ def clocking(username, mode):
 
     with open('data.csv', 'a', newline='') as Clock:
         Clockin_writer = csv.writer(Clock)
-        #Clockin_writer.writerow({"Name":username, "Date":currentDate, "Time":currentTime_in, "Mode":mode})
+        # Clockin_writer.writerow({"Name":username, "Date":currentDate, "Time":currentTime_in, "Mode":mode})
         Clockin_writer.writerow([username, currentDate, currentTime_in, mode])
 
 # Load image from file and convert to 105x105 pixel
