@@ -37,7 +37,7 @@ Please follow all the steps to get started
 1. Clone this repository
 
    ```sh
-   git clone https://github.com/victorlee071200/Face_Recognition-Attedance-Projects.git
+   git clone https://github.com/CherylTSW/COS30082-Team-3.git
    ```
  
 2. Download the model.h5 weight from this [google shared link](https://drive.google.com/file/d/1TrvbBRyA6FCcVmuqa70kxyFedGwdqe20/view?usp=sharing) and placed it into directory folder as shown below:
