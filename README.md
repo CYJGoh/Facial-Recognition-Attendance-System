@@ -40,25 +40,19 @@ Please follow all the steps to get started
    git clone https://github.com/CherylTSW/COS30082-Team-3.git
    ```
  
-2. Download the model.h5 weight from this [google shared link](https://drive.google.com/file/d/1ZXr5nGlxmaIV_ABM2bqfmV2VUz_zB4VR/view?usp=sharing) and placed it into directory folder as shown below:
-
-
-<img src="github_images/directory.png" alt="directory" height="200">
- 
-
-3. cd to the application directory
+2. cd to the application directory
 
    ```sh
    cd app
    ```
 
-4. Install all the required module with pip
+3. Install all the required module with pip
 
    ```sh
    pip install -r requirements.txt
    ```
 
-5. Run the program with command line:
+4. Run the program with command line:
 
    ```sh
    streamlit run app.py
