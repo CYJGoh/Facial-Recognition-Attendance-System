@@ -148,12 +148,15 @@ def verification_clocked_in(model, detection_threshold, verification_threshold):
                         path, directory)))
                 verified = verification > verification_threshold
 
-                if verified == True:
-                    clocking(directory, "Clocked In")
-                    st.success(f"{directory} Clocked In")
+            if verified == True:
+                clocking(directory, "Clocked In")
+                st.success(
+                    f"Welcome Back {directory}, You are Clocked In Successfully!")
 
-                else:
-                    break
+                break
+
+            else:
+                continue
 
 
 def verification_clocked_out(model, detection_threshold, verification_threshold):
@@ -172,15 +175,15 @@ def verification_clocked_out(model, detection_threshold, verification_threshold)
                         os.path.join(root, directory, file))
 
                 # # Time tracking for image prediction
-                prediction_time = time.process_time()
+                # prediction_time = time.process_time()
 
                 # Make Predictions
                 result = model.predict(
                     list(np.expand_dims([input_img, validation_img], axis=1)))
                 results.append(result)
 
-                st.text(
-                    f"Prediction Time for {directory}: {time.process_time() - prediction_time}")
+                # st.text(
+                #     f"Prediction Time for {directory}: {time.process_time() - prediction_time}")
 
                 # Detection Threshold: Metric above which a prediciton is considered positive
                 detection = np.sum(np.array(results) > detection_threshold)
@@ -193,7 +196,8 @@ def verification_clocked_out(model, detection_threshold, verification_threshold)
 
             if verified == True:
                 clocking(directory, "Clocked Out")
-                st.success(f"{directory} Clocked Out")
+                st.success(
+                    f"Have a Nice Day {directory}, You are Clocked Out Successfully!")
 
                 break
 
