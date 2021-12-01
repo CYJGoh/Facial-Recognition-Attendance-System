@@ -235,7 +235,7 @@ def clocking(username, mode):
         # Clockin_writer.writerow({"Name":username, "Date":currentDate, "Time":currentTime_in, "Mode":mode})
         Clockin_writer.writerow([username, currentDate, currentTime_in, mode])
 
-# Load image from file and convert to 105x105 pixel
+# Load image from file and convert to 224x224 pixel
 
 
 def preprocess(file_path):
@@ -247,8 +247,8 @@ def preprocess(file_path):
     # Load in the image
     img = tf.io.decode_jpeg(byte_img)
 
-    # Preprocessing steps - resizing the image to be 105x105x3
-    img = tf.image.resize(img, (105, 105))
+    # Preprocessing steps - resizing the image to be 224x224x3
+    img = tf.image.resize(img, (224, 224))
     # Scale image to be between 0 and 1
     img = img / 255.0
 
