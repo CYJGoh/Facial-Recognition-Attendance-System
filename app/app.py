@@ -152,6 +152,7 @@ def verification_clocked_in(model, detection_threshold, verification_threshold):
                     clocking(directory, "Clocked In")
                     st.success(f"{directory} Clocked In")
 
+                else:
                     break
 
 
@@ -171,15 +172,15 @@ def verification_clocked_out(model, detection_threshold, verification_threshold)
                         os.path.join(root, directory, file))
 
                 # # Time tracking for image prediction
-                # prediction_time = time.process_time()
+                prediction_time = time.process_time()
 
                 # Make Predictions
                 result = model.predict(
                     list(np.expand_dims([input_img, validation_img], axis=1)))
                 results.append(result)
 
-                # st.text(
-                #     f"Prediction Time: {time.process_time() - prediction_time}")
+                st.text(
+                    f"Prediction Time for {directory}: {time.process_time() - prediction_time}")
 
                 # Detection Threshold: Metric above which a prediciton is considered positive
                 detection = np.sum(np.array(results) > detection_threshold)
@@ -195,6 +196,9 @@ def verification_clocked_out(model, detection_threshold, verification_threshold)
                 st.success(f"{directory} Clocked Out")
 
                 break
+
+            else:
+                continue
 
 
 def step_3(model, detection_threshold, verification_threshold):
