@@ -94,7 +94,7 @@ def main():
 
         detection_threshold = 0.53
 
-        verification_threshold = 0.99
+        verification_threshold = 0.59
 
         st.caption(
             'Please choose your action by selecting the action button below: ')
@@ -113,7 +113,7 @@ def capture_input():
     st.success('Done!')
 
 
-def verification(model, detection_threshold, verification_threshold):
+def verification_clocked_in(model, detection_threshold, verification_threshold):
 
     for root, directories, files in os.walk(path, topdown=False, followlinks=True):
 
@@ -148,7 +148,53 @@ def verification(model, detection_threshold, verification_threshold):
                         path, directory)))
                 verified = verification > verification_threshold
 
-    return verified, directory
+                if verified == True:
+                    clocking(directory, "Clocked In")
+                    st.success(f"{directory} Clocked In")
+
+                    break
+
+
+def verification_clocked_out(model, detection_threshold, verification_threshold):
+
+    for root, directories, files in os.walk(path, topdown=False, followlinks=True):
+
+        for directory in directories:
+
+            results = []
+
+            for file in os.listdir(os.path.join(root, directory)):
+                if os.path.isfile(os.path.join(root, directory, file)):
+                    input_img = preprocess(os.path.join(
+                        'application_data', 'input_image', 'input_image.jpg'))
+                    validation_img = preprocess(
+                        os.path.join(root, directory, file))
+
+                # # Time tracking for image prediction
+                # prediction_time = time.process_time()
+
+                # Make Predictions
+                result = model.predict(
+                    list(np.expand_dims([input_img, validation_img], axis=1)))
+                results.append(result)
+
+                # st.text(
+                #     f"Prediction Time: {time.process_time() - prediction_time}")
+
+                # Detection Threshold: Metric above which a prediciton is considered positive
+                detection = np.sum(np.array(results) > detection_threshold)
+
+                # Verification Threshold: Proportion of positive predictions / total positive samples
+                verification = detection / \
+                    len(os.listdir(os.path.join(
+                        path, directory)))
+                verified = verification > verification_threshold
+
+            if verified == True:
+                clocking(directory, "Clocked Out")
+                st.success(f"{directory} Clocked Out")
+
+                break
 
 
 def step_3(model, detection_threshold, verification_threshold):
@@ -159,25 +205,15 @@ def step_3(model, detection_threshold, verification_threshold):
         clockIn_btn = st.button("Clock In")
         if clockIn_btn:
             with st.spinner('Verifying...'):
-                verified, directory = verification(
+                verification_clocked_in(
                     model, detection_threshold, verification_threshold)
-                if verified == True:
-                    clocking(directory, "Clocked In")
-                    st.success(f"{directory} Clocked In")
-                else:
-                    st.warning('User is not verified')
 
     with col2:
         clockOut_btn = st.button("Clock Out")
         if clockOut_btn:
             with st.spinner('Verifying...'):
-                verified, directory = verification(
+                verification_clocked_out(
                     model, detection_threshold, verification_threshold)
-                if verified == True:
-                    clocking(directory, "Clocked Out")
-                    st.success(f"{directory} Clocked Out")
-                else:
-                    st.warning('User is not verified')
 
 
 def clocking(username, mode):
