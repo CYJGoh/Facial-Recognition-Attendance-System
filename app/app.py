@@ -45,9 +45,9 @@ def main():
 
         st.caption('Please check the checkbox below for web cam previewing')
 
-        run = st.checkbox('Webcam Preview')
+        # run = st.checkbox('Webcam Preview')
 
-        webcam_preview(run)
+        # webcam_preview(run)
 
         director_name = st.text_input("Please Enter you name")
 
