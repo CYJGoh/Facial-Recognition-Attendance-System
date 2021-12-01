@@ -250,7 +250,7 @@ def preprocess(file_path):
     # Preprocessing steps - resizing the image to be 224x224x3
     img = tf.image.resize(img, (224, 224))
     # Scale image to be between 0 and 1
-    img = img / 255.0
+    # img = img / 255.0
 
     # Return image
     return img
