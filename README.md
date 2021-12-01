@@ -40,7 +40,7 @@ Please follow all the steps to get started
    git clone https://github.com/CherylTSW/COS30082-Team-3.git
    ```
  
-2. cd to the application directory
+2. open this repository with your preference IDE and cd to the application directory
 
    ```sh
    cd app
